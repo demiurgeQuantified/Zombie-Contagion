@@ -1,0 +1,9 @@
+name=Zombie Contagion Traits
+id=ZCTraits
+description=Trait submod for Zombie Contagion. Currently only includes 'Carrier'
+require=ZContagion,ProfessionFramework
+poster=zcontagion.png
+modversion=1.0.0
+authors=albion
+versionMin=41.73
+icon=zconmini.png

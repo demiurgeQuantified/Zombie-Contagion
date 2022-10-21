@@ -1,0 +1,19 @@
+VERSION = 1,
+
+option ZContagion.SusceptibleMultiplier
+{
+	type = double,
+	min = 0.0,
+	default = 1.0,
+	max = 100.0,
+	page = ZContagionSusceptible,
+	translation = ZContagion_SusceptibleMultiplier,
+}
+
+option ZContagion.SusceptibleOnly
+{
+	type = boolean,
+	default = false,
+	page = ZContagionSusceptible,
+	translation = ZContagion_SusceptibleOnly,
+}

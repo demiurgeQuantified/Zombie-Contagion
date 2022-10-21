@@ -1,0 +1,4 @@
+UI_EN = {
+    UI_trait_carrier = "Carrier",
+    UI_trait_carrierdesc = "Immune to the harmful effects of the airborne virus. Dangerous to those around you.",
+}

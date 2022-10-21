@@ -1,0 +1,33 @@
+version=1
+id=2868937948
+title=Zombie Contagion
+description=This mod offers a semi-realistic simulation of infection spread between players. You may be immune to the dead's airborne virus, but the virus emitted by those in the pre-death stage is very different...
+description=
+description=[h1]Mechanics[/h1]
+description=While the exact details of the virus are unknown, the CDC announced the following:
+description=[list][*]Masks are very effective at slowing the spread of the disease.
+description=[*]Infectiousness increases as the disease progresses - freshly infected hosts offer almost no threat to healthy individuals, but risk grows quickly.
+description=[*]The virus is only transmitted in very close contact.
+description=[*]On average, transmission was observed after ten minutes of direct close contact with a late stage host. No amount of contact, no matter how brief, is safe.
+description=[*]Although the risk is still greatly reduced, transmission can occur from a greater distance indoors.
+description=[*]The virus may enter slightly more easily through open wounds.
+description=[*]Gas masks were found to be ineffective when worn by the infection host, as they do not filter the exhaled air.
+description=[*]Health history may have a significant impact on your chance to be infected.[/list]
+description=
+description=[h1]Optional Traits[/h1]
+description=The Carrier trait, for +2 points, grants immunity to airborne transmissions (not other sources). Unfortunately, carriers are always lightly infectious to others around them.
+description=
+description=[h1]Pairs well with:[/h1]
+description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2392676812]Antibodies[/url] makes the infection survivable, giving more reason to keep infected allies around, and making the airborne disease less damning without removing challenge.
+description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2795677303]Susceptible[/url] makes zombies dangerous to be around too, completing the theme of airborne infection. Zombie Contagion can be configured to only affect Susceptible characters, or to be more severe against them.
+description=This mod should work with all modded gas masks. It will try to find modded facemasks too, but this may not be as reliable. If you want to be sure, check your logs for a list of detected facemasks (gasmasks are not listed).
+description=
+description=[h1]Disclaimer:[/h1]
+description=This mod does not aim to be fully realistic or scientifically accurate. This mod's mechanics are not inspired by any real events.
+description=
+description=This mod is inspired by [url=https://steamcommunity.com/id/ogreleg]OgreLeg's[/url] similar mod, but its mechanics and code are entirely original.
+description=
+description=If you enjoy my mods, I'd appreciate it a lot if you considered leaving me a tip ^u^
+description=[url=https://ko-fi.com/starseamstress][img]https://storage.ko-fi.com/cdn/brandasset/kofi_button_dark.png[/img][/url]
+tags=Build 41;Hardmode;Misc;Multiplayer;Realistic;Traits
+visibility=public

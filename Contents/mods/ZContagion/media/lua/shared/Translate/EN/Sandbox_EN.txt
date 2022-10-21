@@ -1,0 +1,10 @@
+Sandbox_EN = {
+	Sandbox_ZContagion = "Zombie Contagion",
+	Sandbox_ZContagionSusceptible = "Zombie Contagion - Susceptible Support",
+
+	Sandbox_ZContagion_SusceptibleMultiplier = "Susceptible Multiplier",
+	Sandbox_ZContagion_SusceptibleMultiplier_tooltip = "Increases the chance of players using the Susceptible trait to be infected by other infected players. Set to zero for instant infection no matter what.",
+
+	Sandbox_ZContagion_SusceptibleOnly = "Susceptible Only",
+	Sandbox_ZContagion_SusceptibleOnly_tooltip = "Only players with the Susceptible trait can be infected by other infected players.",
+}

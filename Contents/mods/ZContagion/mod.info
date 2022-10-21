@@ -1,0 +1,8 @@
+name=Zombie Contagion
+id=ZContagion
+description=Infected players can infect other players.
+poster=zcontagion.png
+modversion=1.1.1
+authors=albion
+versionMin=41.73
+icon=zconmini.png
