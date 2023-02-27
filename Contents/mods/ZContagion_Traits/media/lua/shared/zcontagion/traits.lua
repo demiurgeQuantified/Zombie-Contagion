@@ -16,9 +16,13 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 
-TraitFactory.addTrait("Carrier", "UI_trait_carrier", 2, "UI_trait_carrierdesc", false)
-TraitFactory.setMutualExclusive("Carrier", "ProneToIllness")
-TraitFactory.setMutualExclusive("Carrier", "Susceptible")
+Events.OnGameBoot.Add(function()
+    TraitFactory.addTrait("Carrier", getText("UI_trait_carrier"), 2, getText("UI_trait_carrierdesc"), false)
+    TraitFactory.setMutualExclusive("Carrier", "ProneToIllness")
+    if getActivatedMods():contains("Susceptible") then
+        TraitFactory.setMutualExclusive("Carrier", "Susceptible")
+    end
+end)
 
 local metatable = __classmetatables[Trait.class].__index
 
