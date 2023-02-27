@@ -16,9 +16,6 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 
-ProfessionFramework.addTrait('Carrier', {
-    name = "UI_trait_carrier",
-    description = "UI_trait_carrierdesc",
-    cost = 2,
-    exclude = {"ProneToIllness","Susceptible"},
-})
+TraitFactory.addTrait("Carrier", "UI_trait_carrier", 2, "UI_trait_carrierdesc", false)
+TraitFactory.setMutualExclusive("Carrier", "ProneToIllness")
+TraitFactory.setMutualExclusive("Carrier", "Susceptible")
