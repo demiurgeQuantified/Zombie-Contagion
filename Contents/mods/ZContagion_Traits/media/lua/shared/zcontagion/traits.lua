@@ -19,3 +19,33 @@
 TraitFactory.addTrait("Carrier", "UI_trait_carrier", 2, "UI_trait_carrierdesc", false)
 TraitFactory.setMutualExclusive("Carrier", "ProneToIllness")
 TraitFactory.setMutualExclusive("Carrier", "Susceptible")
+
+local metatable = __classmetatables[Trait.class].__index
+
+local old_getCost = metatable.getCost
+---@param self Trait
+metatable.getCost = function(self)
+    if self:getType() == "Carrier" then
+        return SandboxVars.ZContagion.CarrierCost
+    end
+    return old_getCost(self)
+end
+
+local old_getRightLabel = metatable.getRightLabel
+---@param self Trait
+metatable.getRightLabel = function(self)
+    if self:getType() == "Carrier" then
+        local cost = SandboxVars.ZContagion.CarrierCost
+        local label = "+"
+        if cost > 0 then
+            label = "-"
+        elseif cost == 0 then
+            label = ""
+        end
+
+        if cost < 0 then cost = cost * -1 end
+
+        return label..cost
+    end
+    return old_getRightLabel(self)
+end
