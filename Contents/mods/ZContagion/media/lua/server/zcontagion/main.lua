@@ -19,7 +19,9 @@ if not isServer() then return end
 ZContagion = {}
 
 ZContagion.isTransmitting = false
-local onlinePlayers
+local onlinePlayers = getOnlinePlayers()
+local arraySize = ArrayList.size
+local arrayGet = ArrayList.get
 
 local function infectPlayer(player)
     sendServerCommand(player, 'ZContagion', 'infectPlayer', {})
@@ -37,8 +39,8 @@ end
 
 local function getPlayersInRange(transmitter)
     local playersList = {}
-    for i = 0, onlinePlayers:size()-1 do
-        local player = onlinePlayers:get(i)
+    for i = 0, arraySize(onlinePlayers)-1 do
+        local player = arrayGet(onlinePlayers, i)
         if canPlayerBeInfected(player) then
             local distance = transmitter:DistToSquared(player)
             if distance <= ZContagion.InfectionRange then
@@ -100,11 +102,9 @@ local function tryInfectPlayer(player, infectivity)
 end
 
 local function transmission()
-    onlinePlayers = getOnlinePlayers() or getPlayers()
-
     local hasInfectedPlayer = false
-    for i = 0, onlinePlayers:size()-1 do
-        local player = onlinePlayers:get(i)
+    for i = 0, arraySize(onlinePlayers)-1 do
+        local player = arrayGet(onlinePlayers, i)
         if player:getModData()['infectious'] then
             hasInfectedPlayer = true
             local infectivity = calculateInfectivity(player)
