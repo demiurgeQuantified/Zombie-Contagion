@@ -15,7 +15,7 @@ description=[*]Gas masks were found to be ineffective when worn by the infection
 description=[*]Health history may have a significant impact on your chance to be infected.[/list]
 description=
 description=[h1]Optional Traits[/h1]
-description=The Carrier trait, for +2 points, grants immunity to airborne transmissions (not other sources). Unfortunately, carriers are always lightly infectious to others around them.
+description=The Carrier trait, for +2 points (configurable), grants immunity to airborne transmissions (not other sources). Unfortunately, carriers are always lightly infectious to others around them.
 description=
 description=[h1]Pairs well with:[/h1]
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2392676812]Antibodies[/url] makes the infection survivable, giving more reason to keep infected allies around, and making the airborne disease less damning without removing challenge.
