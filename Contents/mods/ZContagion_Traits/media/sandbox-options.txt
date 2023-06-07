@@ -4,7 +4,7 @@ option ZContagion.CarrierCost
 {
     type = integer,
     min = -12,
-    default = 2,
+    default = -2,
     max = 12,
     page = ZContagion,
     translation = ZContagion_CarrierCost,

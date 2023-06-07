@@ -1,0 +1,4 @@
+Sandbox_EN = {
+    Sandbox_ZContagion_CarrierCost = "Carrier Cost",
+    Sandbox_ZContagion_CarrierCost_tooltip = "How many trait points the Carrier trait costs."
+}

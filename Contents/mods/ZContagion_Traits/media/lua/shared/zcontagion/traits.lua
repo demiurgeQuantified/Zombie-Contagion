@@ -30,7 +30,7 @@ local old_getCost = metatable.getCost
 ---@param self Trait
 metatable.getCost = function(self)
     if self:getType() == "Carrier" then
-        return SandboxVars.ZContagion.CarrierCost
+        return -SandboxVars.ZContagion.CarrierCost
     end
     return old_getCost(self)
 end
@@ -39,7 +39,7 @@ local old_getRightLabel = metatable.getRightLabel
 ---@param self Trait
 metatable.getRightLabel = function(self)
     if self:getType() == "Carrier" then
-        local cost = SandboxVars.ZContagion.CarrierCost
+        local cost = -SandboxVars.ZContagion.CarrierCost
         local label = "+"
         if cost > 0 then
             label = "-"
