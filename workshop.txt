@@ -22,8 +22,8 @@ description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=23926768
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2795677303]Susceptible[/url] makes zombies dangerous to be around too, completing the theme of airborne infection. Zombie Contagion can be configured to only affect Susceptible characters, or to be more severe against them.
 description=This mod should work with all modded gas masks. It will try to find modded facemasks too, but this may not be as reliable. If you want to be sure, check your logs for a list of detected facemasks (gasmasks are not listed).
 description=
-description=[h1]Disclaimer:[/h1]
-description=This mod does not aim to be fully realistic or scientifically accurate. This mod's mechanics are not inspired by any real events.
+description=[h1]Credits[/h1]
+description=Thanks to [url=https://steamcommunity.com/id/coiiide/]Collide[/url] for submitting some bug fixes.
 description=
 description=This mod is inspired by [url=https://steamcommunity.com/id/ogreleg]OgreLeg's[/url] similar mod, but its mechanics and code are entirely original.
 description=
