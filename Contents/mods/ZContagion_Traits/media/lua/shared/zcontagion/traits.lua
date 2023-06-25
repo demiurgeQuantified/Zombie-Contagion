@@ -53,3 +53,11 @@ metatable.getRightLabel = function(self)
     end
     return old_getRightLabel(self)
 end
+
+local old_getTexture = metatable.getTexture
+metatable.getTexture = function(self)
+    if self:getType() == "Carrier" and not (SandboxVars.ZContagion.CarrierChance == 2) then
+        return nil
+    end
+    return old_getTexture(self)
+end
