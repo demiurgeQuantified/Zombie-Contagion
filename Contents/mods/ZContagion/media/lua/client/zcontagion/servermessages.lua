@@ -19,7 +19,7 @@ local Commands = {}
 
 function Commands.infectPlayer()
     local player = getPlayer()
-    if getSandboxOptions():getOptionByName('ZombieLore.Mortality'):getValue():intValue() == 7 then
+    if SandboxVars.ZombieLore.Mortality == 7 then
         player:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):SetFakeInfected(true)
     else
         player:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):SetInfected(true)
