@@ -1,5 +1,15 @@
 VERSION = 1,
 
+option ZContagion.CarrierChance
+{
+    type = enum,
+    numValues = 5,
+    default = 3,
+    page = ZContagion,
+    translation = ZContagion_CarrierChance,
+    valueTranslation = ZContagion_CarrierChance,
+}
+
 option ZContagion.CarrierCost
 {
     type = integer,
