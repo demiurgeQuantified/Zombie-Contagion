@@ -47,7 +47,6 @@ end
 Carrier.OnNewGame = function(player, square)
     if ZombRand(100) + 1 <= Carrier.getCarrierChance(player) then
         player:getTraits():add("Carrier")
-        -- TODO: some way to make this hidden (removing the trait icon might be enough?)
     end
 end
 Events.OnNewGame.Add(Carrier.OnNewGame)

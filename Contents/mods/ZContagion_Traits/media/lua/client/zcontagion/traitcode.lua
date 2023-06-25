@@ -1,51 +1,57 @@
-local previousPrice = 0
+local previousPrice
 
 -- TODO: it shows in the wrong list if you change the price and then go back to a preset difficulty (who cares, low prio)
 -- TODO: we don't really need to remove the trait from the selection if it now grants more points
 -- also consider not removing it the player can still afford it in general
 local function updateTraitPrice()
-    local trait = TraitFactory.getTrait("Carrier")
-    local newCost = trait:getCost()
-
-    --only remove traits if the price has actually changed
-    if previousPrice == newCost then return end
-
     local ccp = MainScreen.instance.charCreationProfession
+    local trait = TraitFactory.getTrait("Carrier")
     local label = trait:getLabel()
 
-    --determine if trait is purchased before clearing ccp.listboxTraitSelected
-    local traitIsPurchased = false
-    local selectedItems = ccp.listboxTraitSelected.items
-    for i=1, #selectedItems do
-        if selectedItems[i].item == trait then
-            traitIsPurchased = true
-            break
+    if SandboxVars.ZContagion.CarrierChance == 2 then
+        local newCost = trait:getCost()
+
+        --only remove traits if the price has actually changed
+        if previousPrice == newCost then return end
+
+        --determine if trait is purchased before clearing ccp.listboxTraitSelected
+        local traitIsPurchased = false
+        local selectedItems = ccp.listboxTraitSelected.items
+        for i=1, #selectedItems do
+            if selectedItems[i].item == trait then
+                traitIsPurchased = true
+                break
+            end
         end
-    end
 
-    local oldItem = ccp.listboxTrait:removeItem(label)
-            or ccp.listboxBadTrait:removeItem(label)
-            or traitIsPurchased and ccp.listboxTraitSelected:removeItem(label)
-    if not oldItem then return end
+        ccp.listboxTrait:removeItem(label)
+        ccp.listboxBadTrait:removeItem(label)
+        ccp.listboxTraitSelected:removeItem(label)
 
-    -- readd it
-    local newItem
-    if newCost > 0 then
-        newItem = ccp.listboxTrait:addItem(label, trait)
+        -- readd it
+        local item
+        if newCost > 0 then
+            item = ccp.listboxTrait:addItem(label, trait)
+        else
+            item = ccp.listboxBadTrait:addItem(label, trait)
+        end
+        item.tooltip = trait:getDescription()
+
+        --adjust available points only if traitIsPurchased
+        if traitIsPurchased then
+            ccp.pointToSpend = ccp.pointToSpend + previousPrice
+        end
+
+        CharacterCreationMain.sort(ccp.listboxTrait.items)
+        CharacterCreationMain.invertSort(ccp.listboxBadTrait.items)
+        CharacterCreationMain.sort(ccp.listboxTraitSelected.items)
+        previousPrice = newCost
     else
-        newItem = ccp.listboxBadTrait:addItem(label, trait)
+        ccp.listboxTrait:removeItem(label)
+        ccp.listboxBadTrait:removeItem(label)
+        ccp.listboxTraitSelected:removeItem(label)
+        previousPrice = nil
     end
-    newItem.tooltip = trait:getDescription()
-
-    --adjust available points only if traitIsPurchased
-    if traitIsPurchased then
-        ccp.pointToSpend = ccp.pointToSpend + previousPrice
-    end
-
-    CharacterCreationMain.sort(ccp.listboxTrait.items)
-    CharacterCreationMain.invertSort(ccp.listboxBadTrait.items)
-    CharacterCreationMain.sort(ccp.listboxTraitSelected.items)
-    previousPrice = newCost
 end
 
 local old_setSandboxVars = SandboxOptionsScreen.setSandboxVars
