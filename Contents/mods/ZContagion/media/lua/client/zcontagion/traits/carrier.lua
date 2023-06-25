@@ -32,14 +32,16 @@ Carrier.getCarrierChance = function(player)
     local chance = Carrier.carrierChances[SandboxVars.ZContagion.CarrierChance]
     if chance == 0 then return 0 end
 
+    local traitMult = 1
     local traits = player:getTraits()
     for i = 0, traits:size()-1 do
-        local traitMult = Carrier.traitModifiers[traits:get(i)]
-        if traitMult then
-            chance = chance * (1 + traitMult)
+        local traitMod = Carrier.traitModifiers[traits:get(i)]
+        if traitMod then
+            traitMult = traitMult + traitMod
         end
     end
-    return math.floor(chance)
+    chance = chance * traitMult
+    return math.max(math.floor(chance), 0)
 end
 
 ---@param player IsoPlayer
