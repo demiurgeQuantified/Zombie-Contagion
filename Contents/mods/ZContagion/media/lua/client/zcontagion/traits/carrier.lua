@@ -18,6 +18,10 @@ Carrier.traitModifiers = {
     Smoker = -0.2
 }
 
+Carrier.bannedTraits = {
+    Susceptible = true
+}
+
 ---@param player IsoPlayer
 Carrier.OnPlayerDeath = function(player)
     if not player:HasTrait("Carrier") then return end
@@ -33,13 +37,19 @@ Carrier.getCarrierChance = function(player)
     if chance == 0 then return 0 end
 
     local traitMult = 1
+
     local traits = player:getTraits()
     for i = 0, traits:size()-1 do
-        local traitMod = Carrier.traitModifiers[traits:get(i)]
+        local trait = traits:get(i)
+
+        if Carrier.bannedTraits[trait] then return 0 end
+
+        local traitMod = Carrier.traitModifiers[trait]
         if traitMod then
             traitMult = traitMult + traitMod
         end
     end
+
     chance = chance * traitMult
     return math.max(math.floor(chance), 0)
 end
