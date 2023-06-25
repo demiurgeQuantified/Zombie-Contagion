@@ -1,6 +1,18 @@
 Sandbox_EN = {
 	Sandbox_ZContagion = "Zombie Contagion",
-	Sandbox_ZContagionSusceptible = "Zombie Contagion - Susceptible Support",
+
+    Sandbox_ZContagion_CarrierCost = "Carrier Cost",
+    Sandbox_ZContagion_CarrierCost_tooltip = "How many trait points the Carrier trait costs, if it is purchasable.",
+
+    Sandbox_ZContagion_CarrierChance = "Carrier Rarity",
+    Sandbox_ZContagion_CarrierChance_tooltip = "How likely any character is to be a carrier. <BR> Trait makes it into a trait purchased at character creation instead of randomly selected.",
+    Sandbox_ZContagion_CarrierChance_option1 = "None",
+    Sandbox_ZContagion_CarrierChance_option2 = "Trait",
+    Sandbox_ZContagion_CarrierChance_option3 = "Rare",
+    Sandbox_ZContagion_CarrierChance_option4 = "Uncommon",
+    Sandbox_ZContagion_CarrierChance_option5 = "Common",
+
+    Sandbox_ZContagionSusceptible = "Zombie Contagion - Susceptible Support",
 
 	Sandbox_ZContagion_SusceptibleMultiplier = "Susceptible Multiplier",
 	Sandbox_ZContagion_SusceptibleMultiplier_tooltip = "Increases the chance of players using the Susceptible trait to be infected by other infected players. Set to zero for instant infection no matter what.",

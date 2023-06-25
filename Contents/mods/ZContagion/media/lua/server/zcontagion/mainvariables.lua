@@ -29,3 +29,4 @@ ZContagion.InjuryMultiplier = 0.2
 ZContagion.TransmitterMaskEffectiveness = 3
 ZContagion.DefaultMaskMultiplier = 0.34
 ZContagion.PostInfectionImmuneHours = 12 -- so that infected players can be quarantined together without just re-infecting each other immediately
+ZContagion.CarrierInfectivity = 0.4
