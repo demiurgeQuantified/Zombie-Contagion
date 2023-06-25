@@ -16,7 +16,7 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 if not isServer() then return end
-ZContagion = {}
+local ZContagion = {}
 
 ZContagion.isTransmitting = false
 local onlinePlayers = getOnlinePlayers()
@@ -134,3 +134,5 @@ function ZContagion.beginTransmission()
         ZContagion.isTransmitting = true
     end
 end
+
+return ZContagion

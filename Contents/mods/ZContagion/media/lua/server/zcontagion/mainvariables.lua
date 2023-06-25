@@ -16,7 +16,7 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 if not isServer() then return end
-require 'zcontagion/main'
+local ZContagion = require 'zcontagion/main'
 ZContagion.InfectionChance = 7 -- x in 100 chance at peak of infection
 ZContagion.InfectionRange = 1.5
 ZContagion.InfectionRange = ZContagion.InfectionRange * ZContagion.InfectionRange -- square it so we can use a cheaper distance calculation

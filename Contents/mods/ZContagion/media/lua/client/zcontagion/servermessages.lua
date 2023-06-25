@@ -26,7 +26,7 @@ function Commands.infectPlayer()
     end
 end
 
-local function OnServerCommand(module, command, args)
+function Commands.OnServerCommand(module, command, args)
     if module == 'ZContagion' then
         if args then
             Commands[command](unpack(args))
@@ -35,4 +35,6 @@ local function OnServerCommand(module, command, args)
         end
     end
 end
-Events.OnServerCommand.Add(OnServerCommand)
+Events.OnServerCommand.Add(Commands.OnServerCommand)
+
+return Commands

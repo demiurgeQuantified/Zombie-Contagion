@@ -16,7 +16,7 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 if not isServer() then return end
-
+local ZContagion = require "zcontagion/main"
 local Commands = {}
 
 function Commands.setPlayerInfectious(player, isInfectious)
@@ -60,9 +60,11 @@ function Commands.setMaskModifier(player, item, gasmask)
     player:getModData()['maskModifier'] = modData
 end
 
-local function OnClientCommand(module, command, player, args)
+function Commands.OnClientCommand(module, command, player, args)
     if module == 'ZContagion' then
         Commands[command](player, unpack(args))
     end
 end
-Events.OnClientCommand.Add(OnClientCommand)
+Events.OnClientCommand.Add(Commands.OnClientCommand)
+
+return Commands

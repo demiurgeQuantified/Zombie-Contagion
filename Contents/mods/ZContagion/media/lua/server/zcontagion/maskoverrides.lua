@@ -16,7 +16,7 @@
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
 if not isServer() then return end
-require 'zcontagion/main'
+local ZContagion = require 'zcontagion/main'
 
 ZContagion.maskOverrides = {
     ["Hat_BandanaMask"] = 0.44, ["Hat_BandanaMaskTINT"] = 0.44, ["Hat_DustMask"] = 0.44,
