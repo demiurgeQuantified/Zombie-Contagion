@@ -14,19 +14,9 @@ local function updateTraitPrice()
         --only remove traits if the price has actually changed
         if previousPrice == newCost then return end
 
-        --determine if trait is purchased before clearing ccp.listboxTraitSelected
-        local traitIsPurchased = false
-        local selectedItems = ccp.listboxTraitSelected.items
-        for i=1, #selectedItems do
-            if selectedItems[i].item == trait then
-                traitIsPurchased = true
-                break
-            end
-        end
-
         ccp.listboxTrait:removeItem(label)
         ccp.listboxBadTrait:removeItem(label)
-        ccp.listboxTraitSelected:removeItem(label)
+        local traitIsPurchased = ccp.listboxTraitSelected:removeItem(label)
 
         -- readd it
         local item
