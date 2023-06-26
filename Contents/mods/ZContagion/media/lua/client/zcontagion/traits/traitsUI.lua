@@ -1,9 +1,9 @@
-local previousPrice
+local TraitsUI = {}
 
 -- TODO: it shows in the wrong list if you change the price and then go back to a preset difficulty (who cares, low prio)
 -- TODO: we don't really need to remove the trait from the selection if it now grants more points
 -- also consider not removing it the player can still afford it in general
-local function updateTraitPrice()
+TraitsUI.updateTraitPrice = function()
     local ccp = MainScreen.instance.charCreationProfession
     local trait = TraitFactory.getTrait("Carrier")
     local label = trait:getLabel()
@@ -12,7 +12,7 @@ local function updateTraitPrice()
         local newCost = trait:getCost()
 
         --only remove traits if the price has actually changed
-        if previousPrice == newCost then return end
+        if TraitsUI.previousPrice == newCost then return end
 
         ccp.listboxTrait:removeItem(label)
         ccp.listboxBadTrait:removeItem(label)
@@ -29,18 +29,18 @@ local function updateTraitPrice()
 
         --adjust available points only if traitIsPurchased
         if traitIsPurchased then
-            ccp.pointToSpend = ccp.pointToSpend + previousPrice
+            ccp.pointToSpend = ccp.pointToSpend + TraitsUI.previousPrice
         end
 
         CharacterCreationMain.sort(ccp.listboxTrait.items)
         CharacterCreationMain.invertSort(ccp.listboxBadTrait.items)
         CharacterCreationMain.sort(ccp.listboxTraitSelected.items)
-        previousPrice = newCost
+        TraitsUI.previousPrice = newCost
     else
         ccp.listboxTrait:removeItem(label)
         ccp.listboxBadTrait:removeItem(label)
         ccp.listboxTraitSelected:removeItem(label)
-        previousPrice = nil
+        TraitsUI.previousPrice = nil
     end
 end
 
@@ -48,7 +48,9 @@ local old_setSandboxVars = SandboxOptionsScreen.setSandboxVars
 ---@param self SandboxOptionsScreen
 SandboxOptionsScreen.setSandboxVars = function(self)
     old_setSandboxVars(self)
-    updateTraitPrice()
+    TraitsUI.updateTraitPrice()
 end
 
-Events.OnConnected.Add(updateTraitPrice)
+Events.OnConnected.Add(TraitsUI.updateTraitPrice)
+
+return TraitsUI
