@@ -1,5 +1,23 @@
+--[[ZOMBIE CONTAGION
+    Copyright (C) 2023 albion
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of Version 3 of the GNU Affero General Public License as published
+    by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    For any questions, contact me through steam or on Discord - albion#0123
+]]
 local Carrier = {}
 
+---@type table<int, int>
 Carrier.carrierChances = {
     [1] = 0,
     [2] = 0,
@@ -8,6 +26,7 @@ Carrier.carrierChances = {
     [5] = 50
 }
 
+---@type table<string, number>
 Carrier.traitModifiers = {
     ProneToIllness = -0.7,
     Resilient = 0.7,
@@ -18,6 +37,7 @@ Carrier.traitModifiers = {
     Smoker = -0.2
 }
 
+---@type table<string, boolean>
 Carrier.bannedTraits = {
     Susceptible = true
 }

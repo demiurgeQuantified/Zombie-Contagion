@@ -17,22 +17,23 @@
 ]]
 local Commands = {}
 
-function Commands.infectPlayer()
-    local player = getPlayer()
+---@param index int
+function Commands.infectPlayer(index)
+    local torso = getSpecificPlayer(index):getBodyDamage():getBodyPart(BodyPartType.Torso_Upper)
+
     if SandboxVars.ZombieLore.Mortality == 7 then
-        player:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):SetFakeInfected(true)
+        torso:SetFakeInfected(true)
     else
-        player:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):SetInfected(true)
+        torso:SetInfected(true)
     end
 end
 
+---@param module string
+---@param command string
+---@param args table
 function Commands.OnServerCommand(module, command, args)
     if module == 'ZContagion' then
-        if args then
-            Commands[command](unpack(args))
-        else
-            Commands[command]()
-        end
+        Commands[command](unpack(args))
     end
 end
 Events.OnServerCommand.Add(Commands.OnServerCommand)

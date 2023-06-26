@@ -15,51 +15,60 @@
 
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
-if not isServer() then return end
+if isClient() then return end
 local ZContagion = require "zcontagion/main"
+local Config = require "zcontagion/mainvariables"
 local Commands = {}
 
+---@param player IsoPlayer
+---@param isInfectious boolean
 function Commands.setPlayerInfectious(player, isInfectious)
-    local oldInfectious = player:getModData()['infectious']
-    player:getModData()['infectious'] = isInfectious
+    local oldInfectious = player:getModData().infectious
+    player:getModData().infectious = isInfectious
     if isInfectious then
         ZContagion.beginTransmission()
     elseif oldInfectious then
-        player:getModData()['lastInfected'] = getGameTime():getWorldAgeHours()
+        player:getModData().lastInfected = getGameTime():getWorldAgeHours()
     end
 end
 
+---@param player IsoPlayer
+---@param canBeInfected boolean
 function Commands.setPlayerCanBeInfected(player, canBeInfected)
-    player:getModData()['canBeInfected'] = canBeInfected
+    player:getModData().canBeInfected = canBeInfected
 end
 
+---@param player IsoPlayer
+---@param infectionProgress number
 function Commands.updatePlayerInfectionProgress(player, infectionProgress)
     infectionProgress = math.min(infectionProgress, 200)
-    player:getModData()['infectionProgress'] = infectionProgress
+    player:getModData().infectionProgress = infectionProgress
 end
 
+---@param player IsoPlayer
+---@param injuries number
 function Commands.updatePlayerInjuries(player, injuries)
     injuries = math.max(injuries, 0)
-    player:getModData()['injuries'] = injuries
+    player:getModData().injuries = injuries
 end
 
+---@param player IsoPlayer
+---@param item Clothing
+---@param gasmask boolean
 function Commands.setMaskModifier(player, item, gasmask)
-    local modData
+    local maskModifier
     if item then
-        local maskOverride = ZContagion.maskOverrides[item] or false
-        if maskOverride then
-            modData = maskOverride
-        elseif gasmask then
-            modData = 'gasmask'
-        else
-            modData = ZContagion.DefaultMaskMultiplier
-        end
+        maskModifier = ZContagion.maskOverrides[item] or gasmask and "gasmask" or Config.DefaultMaskMultiplier
     else
-        modData = 1
+        maskModifier = 1
     end
-    player:getModData()['maskModifier'] = modData
+    player:getModData().maskModifier = maskModifier
 end
 
+---@param module string
+---@param command string
+---@param player IsoPlayer
+---@param args table
 function Commands.OnClientCommand(module, command, player, args)
     if module == 'ZContagion' then
         Commands[command](player, unpack(args))

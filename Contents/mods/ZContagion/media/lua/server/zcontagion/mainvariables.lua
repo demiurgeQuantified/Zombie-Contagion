@@ -15,18 +15,26 @@
 
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
-if not isServer() then return end
-local ZContagion = require 'zcontagion/main'
-ZContagion.InfectionChance = 7 -- x in 100 chance at peak of infection
-ZContagion.InfectionRange = 1.5
-ZContagion.InfectionRange = ZContagion.InfectionRange * ZContagion.InfectionRange -- square it so we can use a cheaper distance calculation
-ZContagion.InfectionChanceIndoorsMultiplier = 0.25 -- when indoors, a longer range with lower infectivity is also used
-ZContagion.InfectionRangeIndoors = 5
-ZContagion.InfectionRangeIndoors = ZContagion.InfectionRangeIndoors * ZContagion.InfectionRangeIndoors
-ZContagion.ResilientMultiplier = 0.45
-ZContagion.ProneToIllnessMultiplier = 1.7
-ZContagion.InjuryMultiplier = 0.2
-ZContagion.TransmitterMaskEffectiveness = 3
-ZContagion.DefaultMaskMultiplier = 0.34
-ZContagion.PostInfectionImmuneHours = 12 -- so that infected players can be quarantined together without just re-infecting each other immediately
-ZContagion.CarrierInfectivity = 0.4
+if isClient() then return end
+local Config = {}
+
+Config.InfectionChance = 7 -- x in 100 chance at peak of infection
+Config.InfectionRange = 1.5^2
+
+Config.InfectionChanceIndoorsMultiplier = 0.25 -- when indoors, a longer range with lower infectivity is also used
+Config.InfectionRangeIndoors = 5^2
+
+Config.ResilientMultiplier = 0.45
+Config.ProneToIllnessMultiplier = 1.7
+
+Config.InjuryMultiplier = 0.2
+
+Config.TransmitterMaskEffectiveness = 3
+Config.DefaultMaskMultiplier = 0.34
+Config.maskOverrides = {["Hat_BandanaMask"] = 0.44, ["Hat_BandanaMaskTINT"] = 0.44, ["Hat_DustMask"] = 0.44}
+
+Config.PostInfectionImmuneHours = 12 -- so that infected players can be quarantined together without just re-infecting each other immediately
+
+Config.CarrierInfectivity = 0.4
+
+return Config

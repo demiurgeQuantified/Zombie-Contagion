@@ -15,48 +15,64 @@
 
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
-if not isServer() then return end
+if isClient() then return end
+local Config = require "zcontagion/mainvariables"
 local ZContagion = {}
-
 ZContagion.isTransmitting = false
+
 local onlinePlayers = getOnlinePlayers()
-local arraySize = ArrayList.size
-local arrayGet = ArrayList.get
 
-local function infectPlayer(player)
-    sendServerCommand(player, 'ZContagion', 'infectPlayer', {})
+---@param player IsoPlayer
+function ZContagion.infectPlayer(player)
+    sendServerCommand(player, 'ZContagion', 'infectPlayer', {index=player:getOnlineID() % 4})
 end
 
-local function canPlayerBeInfected(player)
-    local lastInfected = player:getModData()['lastInfected'] or -ZContagion.PostInfectionImmuneHours
-    lastInfected = lastInfected + ZContagion.PostInfectionImmuneHours
-    return player:getModData()['canBeInfected'] and (lastInfected <= getGameTime():getWorldAgeHours())
+---@param player IsoPlayer
+---@return boolean
+function ZContagion.canPlayerBeInfected(player)
+    local modData = player:getModData()
+
+    local lastInfected = modData.lastInfected
+    if not lastInfected then
+        return modData.canBeInfected
+    end
+
+    lastInfected = lastInfected + Config.PostInfectionImmuneHours
+    return modData.canBeInfected and lastInfected <= getGameTime():getWorldAgeHours()
 end
 
-local function playersIndoors(player1, player2) -- could check if it was the same building, but seems like it would never matter
-	return player1:CanSee(player2) and player1:getBuilding() and player2:getBuilding()
+---@param player1 IsoPlayer
+---@param player2 IsoPlayer
+---@return boolean
+function ZContagion.playersIndoors(player1, player2)
+	return player1:CanSee(player2) and player1:getBuilding() and player2:getBuilding() ~= nil
 end
 
-local function getPlayersInRange(transmitter)
-    local playersList = {}
-    for i = 0, arraySize(onlinePlayers)-1 do
-        local player = arrayGet(onlinePlayers, i)
-        if canPlayerBeInfected(player) then
+---@param transmitter IsoPlayer
+---@return table<int, IsoPlayer>, table<int, IsoPlayer>
+function ZContagion.getPlayersInRange(transmitter)
+    local players = {}
+    local indoorsPlayers = {}
+    for i = 0, onlinePlayers:size()-1 do
+        local player = onlinePlayers:get(i)
+        if ZContagion.canPlayerBeInfected(player) then
             local distance = transmitter:DistToSquared(player)
-            if distance <= ZContagion.InfectionRange then
-                table.insert(playersList, player)
-            elseif distance <= ZContagion.InfectionRangeIndoors and playersIndoors(transmitter, player) then
-                table.insert(playersList, {player, true})
+            if distance <= Config.InfectionRange then
+                table.insert(players, player)
+            elseif distance <= Config.InfectionRangeIndoors and ZContagion.playersIndoors(transmitter, player) then
+                table.insert(indoorsPlayers, player)
             end
         end
     end
-    return playersList
+    return players, indoorsPlayers
 end
 
-local function calculateInfectivity(player)
-    local playerModData = player:getModData()
+---@param player IsoPlayer
+---@return number
+function ZContagion.calculateInfectivity(player)
+    local modData = player:getModData()
 
-    local infectivity = playerModData['infectionProgress']
+    local infectivity = modData.infectionProgress
     if infectivity >= 1 then -- y = (log(x)^2)/4
         infectivity = math.log10(infectivity)
         infectivity = infectivity * infectivity
@@ -64,73 +80,72 @@ local function calculateInfectivity(player)
     end
     
     if player:HasTrait("Carrier") then
-        infectivity = math.max(ZContagion.CarrierInfectivity, infectivity)
+        infectivity = math.max(Config.CarrierInfectivity, infectivity)
     end
 
-    local maskModifier = playerModData['maskModifier']
+    local maskModifier = modData.maskModifier
     if maskModifier == 'gasmask' then maskModifier = 1 end
-    if maskModifier ~= 1 then maskModifier = maskModifier / ZContagion.TransmitterMaskEffectiveness end
+    if maskModifier ~= 1 then maskModifier = maskModifier / Config.TransmitterMaskEffectiveness end
 
     infectivity = infectivity * maskModifier
     return infectivity
 end
 
-local function tryInfectPlayer(player, infectivity)
-    if (SandboxVars.ZContagion.SusceptibleMultiplier == 0 and player:HasTrait("Susceptible") and player:getModData()['maskModifier'] ~= 'gasmask') then
-        infectPlayer(player)
+---@param player IsoPlayer
+---@param infectivity number
+function ZContagion.tryInfectPlayer(player, infectivity)
+    local modData = player:getModData()
+    if (SandboxVars.ZContagion.SusceptibleMultiplier == 0 and player:HasTrait("Susceptible") and modData.maskModifier ~= 'gasmask') then
+        ZContagion.infectPlayer(player)
     else
-        local infectionRisk = player:getModData()['maskModifier']
+        local infectionRisk = modData.maskModifier
         if infectionRisk == 'gasmask' then infectionRisk = 0 end
 
-        infectionRisk = infectionRisk + (player:getModData()['injuries'] * ZContagion.InjuryMultiplier)
+        infectionRisk = infectionRisk + modData.injuries * Config.InjuryMultiplier
         if infectionRisk == 0 then return end
 
         if player:HasTrait("Resilient") then
-            infectionRisk = infectionRisk * ZContagion.ResilientMultiplier
+            infectionRisk = infectionRisk * Config.ResilientMultiplier
         elseif player:HasTrait("ProneToIllness") then
-            infectionRisk = infectionRisk * ZContagion.ProneToIllnessMultiplier
+            infectionRisk = infectionRisk * Config.ProneToIllnessMultiplier
         end
         if player:HasTrait("Susceptible") then
             infectionRisk = infectionRisk * SandboxVars.ZContagion.SusceptibleMultiplier
         end
 
-        infectionRisk = infectionRisk * ZContagion.InfectionChance
+        infectionRisk = infectionRisk * Config.InfectionChance
         if ZombRandFloat(0, 100) <= infectionRisk * infectivity then
-            infectPlayer(player)
+            ZContagion.infectPlayer(player)
         end
     end 
 end
 
-local function transmission()
+function ZContagion.transmission()
     local hasInfectedPlayer = false
-    for i = 0, arraySize(onlinePlayers)-1 do
-        local player = arrayGet(onlinePlayers, i)
-        if player:getModData()['infectious'] then
+    for i = 0, onlinePlayers:size()-1 do
+        local player = onlinePlayers:get(i)
+        if player:getModData().infectious then
             hasInfectedPlayer = true
-            local infectivity = calculateInfectivity(player)
-            local players = getPlayersInRange(player)
+            local infectivity = ZContagion.calculateInfectivity(player)
+            local players, indoorsPlayers = ZContagion.getPlayersInRange(player)
 
-            for _,receiver in ipairs(players) do
-                local infectivity = infectivity
-                if type(receiver) == 'table' then
-                    if receiver[2] then
-                        infectivity = infectivity * ZContagion.InfectionChanceIndoorsMultiplier
-                        receiver = receiver[1]
-                    end
-                end
-                tryInfectPlayer(receiver, infectivity)
+            for j = 1, #players do
+                ZContagion.tryInfectPlayer(players[j], infectivity)
+            end
+            for j = 1, #indoorsPlayers do
+                ZContagion.tryInfectPlayer(indoorsPlayers[j], infectivity * Config.InfectionChanceIndoorsMultiplier)
             end
         end
     end
     if not hasInfectedPlayer then
-        Events.EveryOneMinute.Remove(transmission)
+        Events.EveryOneMinute.Remove(ZContagion.transmission)
         ZContagion.isTransmitting = false
     end
 end
 
 function ZContagion.beginTransmission()
     if not ZContagion.isTransmitting then
-        Events.EveryOneMinute.Add(transmission)
+        Events.EveryOneMinute.Add(ZContagion.transmission)
         ZContagion.isTransmitting = true
     end
 end

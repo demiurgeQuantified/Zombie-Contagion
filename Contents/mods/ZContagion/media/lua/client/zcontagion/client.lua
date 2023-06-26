@@ -15,9 +15,7 @@
 
     For any questions, contact me through steam or on Discord - albion#0123
 ]]
--- it's sort of dumb to send so much information to the server when the mod could just run on the client, but
--- if this mod ran on the client, the client would need the authority to directly infect other players
-local detectedMasks = 'Zombie Contagion masks detected: '
+local detectedMasks = 'Zombie Contagion: Masks detected: '
 for _,item in pairs(getAllItemsForBodyLocation('Mask')) do
     detectedMasks = detectedMasks .. item .. ', '
 end
@@ -27,13 +25,8 @@ detectedMasks = nil
 local playerInfectious = nil
 local playerCanBeInfected = nil
 local hasSetMaskModifier = false
-local susceptibleOnly = false
 local infectionProgress = nil
 local injuries = nil
-
-Events.OnGameStart.Add(function()
-    susceptibleOnly = SandboxVars.ZContagion.SusceptibleOnly
-end)
 
 local function valueNeedsUpdating(value, oldValue)
     if type(oldValue) == 'nil' then
@@ -55,7 +48,7 @@ end
 local function updatePlayerCanBeInfected(player)
     local oldCanBeInfected = playerCanBeInfected
 
-    if susceptibleOnly and not player:HasTrait("Susceptible") then
+    if SandboxVars.ZContagion.SusceptibleOnly and not player:HasTrait("Susceptible") then
         playerCanBeInfected = false
     elseif player:HasTrait("Carrier") then
         playerCanBeInfected = false
