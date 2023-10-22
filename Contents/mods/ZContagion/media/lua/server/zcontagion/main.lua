@@ -20,7 +20,8 @@ local Config = require "zcontagion/mainvariables"
 local ZContagion = {}
 ZContagion.isTransmitting = false
 
-local onlinePlayers = getOnlinePlayers()
+---@type ArrayList
+local onlinePlayers
 
 ---@param player IsoPlayer
 function ZContagion.infectPlayer(player)
@@ -126,6 +127,8 @@ end
 
 function ZContagion.transmission()
     local hasInfectedPlayer = false
+    -- this can't be cached as the arraylist is constructed by the getter (it is not returning an internal list)
+    onlinePlayers = getOnlinePlayers()
     for i = 0, onlinePlayers:size()-1 do
         local player = onlinePlayers:get(i)
         if player:getModData().infectious then
