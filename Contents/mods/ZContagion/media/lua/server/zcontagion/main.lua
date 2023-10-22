@@ -38,6 +38,7 @@ function ZContagion.canPlayerBeInfected(player)
     end
 
     lastInfected = lastInfected + Config.PostInfectionImmuneHours
+    --TODO: cache GameTime
     return modData.canBeInfected and lastInfected <= getGameTime():getWorldAgeHours()
 end
 
@@ -67,6 +68,8 @@ function ZContagion.getPlayersInRange(transmitter)
     return players, indoorsPlayers
 end
 
+-- TODO: a lot of this code can be made more efficient by caching the modifiers to a player's infectivity/infection risk
+
 ---@param player IsoPlayer
 ---@return number
 function ZContagion.calculateInfectivity(player)
@@ -80,6 +83,7 @@ function ZContagion.calculateInfectivity(player)
     end
     
     if player:HasTrait("Carrier") then
+        -- TODO: don't use the math library, reimplement it
         infectivity = math.max(Config.CarrierInfectivity, infectivity)
     end
 

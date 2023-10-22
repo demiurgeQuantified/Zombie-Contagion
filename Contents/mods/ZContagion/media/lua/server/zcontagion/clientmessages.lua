@@ -28,6 +28,7 @@ function Commands.setPlayerInfectious(player, isInfectious)
     if isInfectious then
         ZContagion.beginTransmission()
     elseif oldInfectious then
+        -- TODO: cache GameTime
         player:getModData().lastInfected = getGameTime():getWorldAgeHours()
     end
 end
@@ -41,6 +42,7 @@ end
 ---@param player IsoPlayer
 ---@param infectionProgress number
 function Commands.updatePlayerInfectionProgress(player, infectionProgress)
+    -- TODO: don't use math library
     infectionProgress = math.min(infectionProgress, 200)
     player:getModData().infectionProgress = infectionProgress
 end
@@ -48,6 +50,7 @@ end
 ---@param player IsoPlayer
 ---@param injuries number
 function Commands.updatePlayerInjuries(player, injuries)
+    -- TODO: don't use math library
     injuries = math.max(injuries, 0)
     player:getModData().injuries = injuries
 end
@@ -71,6 +74,7 @@ end
 ---@param args table
 function Commands.OnClientCommand(module, command, player, args)
     if module == 'ZContagion' then
+        -- TODO: unpack is a bad idea, rewrite these to handle tables
         Commands[command](player, unpack(args))
     end
 end

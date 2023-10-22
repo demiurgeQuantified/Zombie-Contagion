@@ -19,7 +19,7 @@ local TraitsUI = {}
 
 -- TODO: it shows in the wrong list if you change the price and then go back to a preset difficulty (who cares, low prio)
 -- TODO: we don't really need to remove the trait from the selection if it now grants more points
--- also consider not removing it the player can still afford it in general
+-- also consider not removing if the player can still afford it in general
 TraitsUI.updateTraitPrice = function()
     local ccp = MainScreen.instance.charCreationProfession
     local trait = TraitFactory.getTrait("Carrier")

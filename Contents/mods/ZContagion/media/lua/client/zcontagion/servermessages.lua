@@ -33,6 +33,7 @@ end
 ---@param args table
 function Commands.OnServerCommand(module, command, args)
     if module == 'ZContagion' then
+        -- TODO: unpack is a bad idea, rewrite these to handle tables
         Commands[command](unpack(args))
     end
 end
